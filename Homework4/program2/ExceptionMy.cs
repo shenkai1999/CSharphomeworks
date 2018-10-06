@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace program2
 {
-    class ExceptionMy:ApplicationException
+    class ExceptionMy:ApplicationException//自定义异常
     {
         private int idnumber;
         public ExceptionMy(string message,int id)
