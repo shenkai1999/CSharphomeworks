@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{64A7BFC2-C691-4A4A-8BF5-3651EBCADEC6}</ProjectGuid>
+    <ProjectGuid>{D1F326FA-9533-4149-B335-AB4CCAFAC50E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>program1</RootNamespace>
-    <AssemblyName>program1</AssemblyName>
+    <RootNamespace>Homework4</RootNamespace>
+    <AssemblyName>Homework4</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,14 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Circular.cs" />
-    <Compile Include="Graphical.cs" />
-    <Compile Include="GraphicalFactory.cs" />
+    <Compile Include="Clock.cs" />
+    <Compile Include="ClockEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rctangle .cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="Triangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
