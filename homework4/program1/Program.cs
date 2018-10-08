@@ -14,7 +14,7 @@ namespace program1
                 Clock a = new Clock();
                 a.timing += new ClockEventHandler(follow);//添加一个委托实例
                 Console.WriteLine("请输入设置的闹钟时间:");
-                string clocktime = Console.ReadLine();
+            string clocktime = Console.ReadLine();
 
                 a.DoClock(clocktime);//设置闹钟时间
 
