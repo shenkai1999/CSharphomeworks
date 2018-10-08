@@ -87,6 +87,8 @@ namespace program2
             
                 Order t = head.next;
                 bool yesorno = false;
+            try
+            {
                 for (int i = 0; i < head.length; i++)
                 {
                     if (t.next.OrderNumber == OrderNumber)
@@ -102,7 +104,10 @@ namespace program2
                 }
                 if (yesorno) head.length--;
                 else throw new ExceptionMy("不存在该订单。", 1);
-            
+            }catch (ExceptionMy e)
+            {
+                Console.WriteLine("删除失败，不存在该订单");
+            }
             
         }
 

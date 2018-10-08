@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Homework4
+namespace program1
 {
     public delegate void ClockEventHandler(object sender, ClockEventArgs e); //定义一个委托，申明事件处理函数的格式 
     public class Clock
     {
         public event ClockEventHandler timing; //定义事件，相当于申明一个委托实例，初值为null
-        public void DoClock (string mytime)//触发DoClock事件
+        public void DoClock(string mytime)//触发DoClock事件
         {
             ClockEventArgs args = new ClockEventArgs();
             args.ding = mytime;
