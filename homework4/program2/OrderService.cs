@@ -20,6 +20,8 @@ namespace program2
                 Order temp = new Order();
                 Console.Write("请输入订单号:");
                 temp.OrderNumber = Console.ReadLine();
+                Console.Write("请输入客户名:");
+                temp.Customer = Console.ReadLine();
                 for (int j = 0; j < 3; j++)
                 {
                     temp.a[j] = new OrderDetails();
@@ -45,6 +47,8 @@ namespace program2
             Order neworder = new Order();
             Console.Write("请输入订单号:");
             neworder.OrderNumber = Console.ReadLine();
+            Console.Write("请输入客户名:");
+            neworder.Customer = Console.ReadLine();
             for (int j = 0; j < 3; j++)
             {
                 neworder.a[j] = new OrderDetails();
@@ -82,7 +86,7 @@ namespace program2
         }
 
 
-        public static void DeleteOrder(Order head, string OrderNumber)//根据订单号删除订单
+        public static void DeleteOrder1(Order head, string OrderNumber)//根据订单号删除订单
         {
 
 
@@ -108,11 +112,38 @@ namespace program2
             }
             catch (ExceptionMy e)
             {
-                Console.WriteLine("删除失败，不存在该订单");
+                Console.WriteLine("删除失败，出错种类"+e.getId());
             }
 
         }
+        public static void DeleteOrder2(Order head, string customer)//根据客户名删除订单
+        {
+            Order t = head.next;
+            bool yesorno = false;
+            try
+            {
+                for (int i = 0; i < head.length; i++)
+                {
+                    if (t.next.OrderNumber == customer)
+                    {
+                        Order p = t.next;
+                        t.next = p.next;
+                        p.next = null;
+                        yesorno = true;
+                        break;
+                    }
+                    t = t.next;
 
+                }
+                if (yesorno) head.length--;
+                else throw new ExceptionMy("不存在该订单。", 1);
+            }
+            catch (ExceptionMy e)
+            {
+                Console.WriteLine("删除失败，出错种类" + e.getId());
+            }
+
+        }
 
         public static void SearchOrder(Order head, string OrderNumber)//根据订单号查询订单并显示该订单的相关信息
         {

@@ -15,7 +15,7 @@ namespace program2
             Console.WriteLine("请输入新添加的订单的相关信息:");
             OrderService.AddOrder(h);
             OrderService.ShowOrder(h);
-            OrderService.DeleteOrder(h, "001");
+            OrderService.DeleteOrder1(h, "001");
             Console.WriteLine("删除后的订单列表为:");
             OrderService.ShowOrder(h);
             OrderService.SearchOrder(h, "002");
