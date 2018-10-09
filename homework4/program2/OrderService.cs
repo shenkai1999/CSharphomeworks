@@ -167,7 +167,7 @@ namespace program2
         }
 
 
-        public static void ModifyOrder(Order head, string OrderNumber)//根据订单名修改订单
+        public static void ModifyOrder(Order head, string OrderNumber)//根据订单号修改订单
         {
             Order t = head.next;
             for (int i = 0; i < head.length; i++)

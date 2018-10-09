@@ -21,7 +21,8 @@ namespace program2
                 Console.WriteLine("3.显示订单");
                 Console.WriteLine("4.根据订单号查询订单");
                 Console.WriteLine("5.删除订单");
-                Console.WriteLine("6.退出");
+                Console.WriteLine("6.修改订单");
+                Console.WriteLine("7.退出");
                 string b = Console.ReadLine();
                 int c = Convert.ToInt32(b);
                 switch (c)
@@ -31,7 +32,8 @@ namespace program2
                     case 3: OrderService.ShowOrder(h); break;
                     case 4: OrderService.SearchOrder(h, "002"); break;
                     case 5: OrderService.DeleteOrder1(h, "001"); break;
-                    case 6: a = false;break;
+                    case 6: OrderService.ModifyOrder(h, "001"); break;     
+                    case 7: a = false;break;
                 }
             }
             
