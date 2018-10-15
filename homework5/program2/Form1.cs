@@ -68,10 +68,10 @@ namespace program2
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
             if (textBox6.Text != "")
-            {           
-            string a = textBox6.Text;
-            double b = double.Parse(a);
-            per1 = b;
+            {
+                string a = textBox6.Text;
+                double b = double.Parse(a);
+                per1 = b;
             }
         }
 
