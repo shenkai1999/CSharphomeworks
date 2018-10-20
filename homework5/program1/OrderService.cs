@@ -37,18 +37,10 @@ namespace program1
         public List<Order> QueryByGoodsName(string goodsName)//根据商品名字查询订单，使用linq语句
         {
 
-            List<Order> result = new List<Order>();
-            foreach (Order order in orderDict.Values)
-            {
-               var query = from detail in order.Details
-                             where detail.goodsname == goodsName
-                             select order;
-                result.Add(order);
-                break;
-            }
-            return result;
+            var query = orderDict.Values.Where(order => order.Details.Where(d => d.goodsname == goodsName).Count() > 0);
+            return query.ToList();
 
-            }
+        }
         public List<Order> Query(double a)//根据金额查询订单
         {
             var query = orderDict.Values
