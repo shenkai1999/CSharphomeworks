@@ -90,25 +90,29 @@ namespace program2
         {
 
 
-            Order t = head.next;
-            bool yesorno = false;
+            Order t = head;
+           
             try
             {
                 for (int i = 0; i < head.length; i++)
                 {
+                   
+                        
+                    
                     if (t.next.OrderNumber == OrderNumber)
                     {
                         Order p = t.next;
                         t.next = p.next;
                         p.next = null;
-                        yesorno = true;
+                        head.length--;
                         break;
                     }
                     t = t.next;
-
+                    if(t.next==null)
+                    throw new ExceptionMy("不存在该订单。", 1);
                 }
-                if (yesorno) head.length--;
-                else throw new ExceptionMy("不存在该订单。", 1);
+                
+               
             }
             catch (ExceptionMy e)
             {
@@ -119,7 +123,7 @@ namespace program2
         public static void DeleteOrder2(Order head, string customer)//根据客户名删除订单
         {
             Order t = head.next;
-            bool yesorno = false;
+           
             try
             {
                 for (int i = 0; i < head.length; i++)
@@ -129,14 +133,16 @@ namespace program2
                         Order p = t.next;
                         t.next = p.next;
                         p.next = null;
-                        yesorno = true;
+                        head.length--;
                         break;
                     }
                     t = t.next;
+                    if (t.next == null)
+                        throw new ExceptionMy("不存在该订单。", 1);
 
                 }
-                if (yesorno) head.length--;
-                else throw new ExceptionMy("不存在该订单。", 1);
+               
+                
             }
             catch (ExceptionMy e)
             {

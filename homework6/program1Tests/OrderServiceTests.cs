@@ -19,14 +19,7 @@ namespace program1.Tests
         Order order2 = new Order(2, "天恩");
         Order order3 = new Order(3, "小莫");
 
-        OrderService os = new OrderService();
-        [TestMethod()]
-        public void OrderServiceTest()
-        {
-            
-            Assert.AreEqual(0, 0);
-        }
-
+        OrderService os = new OrderService();       
         [TestMethod()]
         public void AddOrderTest()
         {
@@ -136,7 +129,7 @@ namespace program1.Tests
             order1.AddDetails(orderDetails3);
             os.AddOrder(order1);
             order1.jisuan();
-            Assert.IsTrue(os.Export(order1));//将订单1序列化
+            Assert.IsTrue(os.Export(order1));
         }
 
         [TestMethod()]

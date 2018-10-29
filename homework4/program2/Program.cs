@@ -31,7 +31,7 @@ namespace program2
                     case 2: OrderService.AddOrder(h); break;
                     case 3: OrderService.ShowOrder(h); break;
                     case 4: OrderService.SearchOrder(h, "002"); break;
-                    case 5: OrderService.DeleteOrder1(h, "001"); break;
+                    case 5: OrderService.DeleteOrder1(h, "001"); break;//删除订单的订单号为001，可以自己修改
                     case 6: OrderService.ModifyOrder(h, "001"); break;     
                     case 7: a = false;break;
                 }
