@@ -73,6 +73,7 @@ namespace program2
             foreach (Order od in os.QueryByCustomerName(textBox1.Text))
             {
                 orderDetailsBindingSource.DataSource = od.Details;
+                orderBindingSource.DataSource = od;
             }
         }
 
