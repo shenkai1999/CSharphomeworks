@@ -10,24 +10,23 @@ using System.Windows.Forms;
 using program1;
 namespace program2
 {
-    public partial class Form4 : Form
+    public partial class Form3 : Form
     {
-        public Form4()
+        public Form3()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int a = int.Parse(textBox1.Text);
+            string a = textBox1.Text;
             string b = textBox2.Text;
-            Form1.os.UpdateCustomer(a, b);
-           
+            int c = int.Parse(b);
+            string d = textBox3.Text;
+            double f = double.Parse(d);
+            OrderDetails newdetails = new OrderDetails(a, c, f);
+            Form2.neworder.AddDetails(newdetails);
             this.Close();
-        }
-        public Form4(Order order) : this()
-        {
-            orderBindingSource.DataSource = order;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace program1
     {
         static void Main(string[] args)
         {
-           /*OrderDetails orderDetails1 = new OrderDetails("可乐", 1, 3.0);
+           OrderDetails orderDetails1 = new OrderDetails("可乐", 1, 3.0);
             OrderDetails orderDetails2 = new OrderDetails("手机", 1, 2999.0);
             OrderDetails orderDetails3 = new OrderDetails(" 薯片", 2, 10.0);
 
@@ -45,8 +45,8 @@ namespace program1
                  Console.WriteLine(od.ToString());//输出商品中包含手机的订单
              orders = os.Query(1000.0);
              foreach (Order od in orders)
-                 Console.WriteLine(od.ToString());//输出订单金额大于1000的订单*/
-           // os.Export(order1);//将订单1序列化
+                 Console.WriteLine(od.ToString());//输出订单金额大于1000的订单
+           os.Export(order1);//将订单1序列化
            // os.Import("sk.xml");//从sk.xml文件中载入订单
             
         }
