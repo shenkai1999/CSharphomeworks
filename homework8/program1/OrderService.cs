@@ -115,7 +115,7 @@ namespace program1
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load(@".\order.xml");
+                doc.Load(@".\order.xml");//载入xml文件
 
                 XPathNavigator nav = doc.CreateNavigator();
                 nav.MoveToRoot();
