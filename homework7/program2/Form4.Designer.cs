@@ -64,9 +64,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(135, 153);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(172, 15);
+            this.label1.Size = new System.Drawing.Size(112, 15);
             this.label1.TabIndex = 6;
-            this.label1.Text = "需要修改的订单的订单号";
+            this.label1.Text = "修改后的订单号";
             // 
             // label2
             // 
@@ -79,7 +79,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(339, 203);
+            this.textBox2.Location = new System.Drawing.Point(339, 208);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 25);
             this.textBox2.TabIndex = 8;

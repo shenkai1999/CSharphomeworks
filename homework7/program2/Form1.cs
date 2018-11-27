@@ -102,6 +102,7 @@ namespace program2
 
             Order o = (Order)orderBindingSource.Current;
             Form4 form4 = new Form4((Order)orderBindingSource.Current);
+            form4.Owner = this;
             form4.ShowDialog();
         }
 

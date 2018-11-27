@@ -1,0 +1,179 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Xml.XPath;
+using System.Xml.Xsl;
+using System.Xml;
+using System.Data.Entity;
+namespace program1
+{
+     public class OrderService
+    {
+        private Dictionary<int, Order> orderDict;
+
+        public OrderService()
+        {
+            orderDict = new Dictionary<int, Order>();//把订单放入字典，订单号作为key值
+            
+        }
+
+
+        public int AddOrder(Order order)//添加订单
+        {
+            using (var db = new OrderDB()) {
+
+                db.Order.Add(order);
+                db.SaveChanges();
+            }
+            orderDict[order.Id] = order;
+            return 0;
+        }
+        public int RemoveOrder(int orderId)//删除订单
+        {
+            using (var db = new OrderDB())
+            {
+                var order = db.Order.Include("Details").SingleOrDefault(o => o.Id == orderId);
+                db.OrderDetails.RemoveRange(order.Details);
+                db.Order.Remove(order);
+                db.SaveChanges();
+            }
+            orderDict.Remove(orderId);
+            return 0;
+        }
+
+        public List<Order> QueryAllOrders() //查询所有订单
+        {
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("Details").ToList<Order>();
+            }
+            return orderDict.Values.ToList();
+        }
+
+        public List<Order> QueryByCustomerName(string customerName)//根据客户名字查询订单，使用linq语句
+        {
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("Details")
+                  .Where(o => o.customername.Equals(customerName)).ToList<Order>();
+            }
+           /* var query = orderDict.Values
+                .Where(order => order.customername == customerName);
+            return query.ToList();*/
+        }
+        public List<Order> QueryByGoodsName(string goodsName)//根据商品名字查询订单，使用linq语句
+        {
+            using (var db=new OrderDB())
+            {
+                return db.Order.Include("Details")
+                    .Where(order => order.Details.Where(d => d.goodsname == goodsName).Count() > 0).ToList<Order>();
+            }
+           /* var query = orderDict.Values.Where(order => order.Details.Where(d => d.goodsname == goodsName).Count() > 0);
+            return query.ToList();*/
+
+
+        }
+        public List<Order> Query(double a)//根据金额查询订单
+        {
+            var query = orderDict.Values
+                .Where(order => order.sum > a);
+            return query.ToList();
+        }
+        public void Update(Order order)
+        {
+            using (var db = new OrderDB())
+            {
+                db.Order.Attach(order);
+                db.Entry(order).State = EntityState.Modified;
+                order.Details.ForEach(
+                    item => db.Entry(item).State = EntityState.Modified);
+                db.SaveChanges();
+            }
+        }
+        public void UpdateCustomer(int orderId, String newCustomer)//修改订单的客户名称
+        {
+            if (orderDict.ContainsKey(orderId))
+            {
+                orderDict[orderId].customername = newCustomer;
+            }
+            else
+            {
+                throw new Exception($"order-{orderId} is not existed!");
+            }
+        }
+        public bool Export(Order order)//将订单序列化为xml文件
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
+            using (FileStream fs = new FileStream("order.xml", FileMode.Create))
+            {
+                xmlSerializer.Serialize(fs, order);
+            }
+            Console.WriteLine(File.ReadAllText("order.xml"));
+            return true;
+        }
+        public bool Import(String xmlname)//从xml文件中载入订单
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
+            using (FileStream fs = new FileStream("order.xml", FileMode.Open))
+            {
+                Order neworder = (Order)xmlSerializer.Deserialize(fs);
+                Console.WriteLine(neworder);
+            }
+            return true;
+        }
+        public bool datacheck(Order checkorder)//数据验证
+        {
+            string pattern = @"^[0-9]{4}\s1?[0-9]\s[1-3]?[0-9]\s[0-9]{3}$";
+            Regex rx = new Regex(pattern);
+            if (rx.IsMatch(checkorder.ordernumber))
+            {
+                Console.WriteLine("数据验证成功");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("数据验证失败");
+                return false;
+            }
+        }
+        public void ExportHtml(Order order)//将订单导出为HTML文件
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
+            using (FileStream fs = new FileStream("order.xml", FileMode.Create))
+            {
+                xmlSerializer.Serialize(fs, order);
+            }
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@".\order.xml");//载入xml文件
+
+                XPathNavigator nav = doc.CreateNavigator();
+                nav.MoveToRoot();
+
+                XslCompiledTransform xt = new XslCompiledTransform();
+                xt.Load(@".\order.xslt");
+
+                FileStream outFileStream = File.OpenWrite(@".\order.html");
+                XmlTextWriter writer =
+                    new XmlTextWriter(outFileStream, System.Text.Encoding.UTF8);
+                xt.Transform(nav, null, writer);
+
+
+            }
+            catch (XmlException e)
+            {
+                Console.WriteLine("XML Exception:" + e.ToString());
+            }
+            catch (XsltException e)
+            {
+                Console.WriteLine("XSLT Exception:" + e.ToString());
+            }
+        }
+    }
+}

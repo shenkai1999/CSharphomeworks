@@ -18,32 +18,34 @@ namespace program2
             InitializeComponent();
         }
 
-       
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+           
+            Form1.os.AddOrder(neworder);
+
+            Form1 frm1;
+            frm1 = (Form1)this.Owner;
+            frm1.update();
+            this.Close();
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
             string s = textBox1.Text;
             int a = int.Parse(s);
             string q = textBox2.Text;
             string w = textBox3.Text;
             neworder = new Order(a, q, w);
-           
+
+            Form1 frm1;
+            frm1 = (Form1)this.Owner;
+            frm1.update();
+
             Form3 frm = new Form3();
             frm.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-           
-            Form1.os.AddOrder(neworder);
-            Form1 frm1;
-            frm1 = (Form1)this.Owner;
-            frm1.update();
-            this.Close();
-
-        }
-
-       
+      
     }
 }

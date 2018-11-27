@@ -12,22 +12,32 @@ namespace program2
 {
     public partial class Form4 : Form
     {
+        public static Order neworder ;
+       
+        public Order CurrentOrder { get; set; }
         public Form4()
         {
             InitializeComponent();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = int.Parse(textBox1.Text);
-            string b = textBox2.Text;
-            Form1.os.UpdateCustomer(a, b);
-           
-            this.Close();
-        }
         public Form4(Order order) : this()
         {
+
+            CurrentOrder = order;
             orderBindingSource.DataSource = order;
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string a = textBox1.Text;
+            int b = int.Parse(a);
+          
+           
+            neworder=new Order(b,textBox2.Text);
+            Form1.os.Update(CurrentOrder, neworder);
+            Form1 frm1;
+            frm1 = (Form1)this.Owner;
+            frm1.update();
+            this.Close();
+        }
+        
     }
 }

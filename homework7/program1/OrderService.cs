@@ -54,6 +54,10 @@ namespace program1
                 .Where(order => order.sum > a);
             return query.ToList();
         }
+        public void Update(Order Oldorder,Order Neworder)
+        {
+            Oldorder = Neworder;
+        }
         public  void UpdateCustomer(int orderId,String newCustomer)//修改订单的客户名称
         {
             if (orderDict.ContainsKey(orderId))
