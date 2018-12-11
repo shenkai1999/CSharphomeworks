@@ -1,71 +1,78 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace program1
 {
-    public class Crawler
+    class ParallerCrawler
     {
-        public Hashtable urls = new Hashtable();
-        public int count;
-       
-        public void Crawl()
+
+        Stopwatch stopWatch = new Stopwatch();
+        private int count = 0;
+        private int max = 100;
+        public ConcurrentBag<String> complated = new ConcurrentBag<string>();
+        public ConcurrentQueue<String> pending = new ConcurrentQueue<string>();
+
+
+        public void Start(String url, int max)
         {
-            Console.WriteLine("开始爬行了。。。");
-            while (true)
+            stopWatch.Start();
+            this.count = 0;
+            this.max = max;
+            Task.Run(() => DownloadAndParse(url));
+            while (this.count < this.max)
             {
-                string current = null;
-                foreach (string url in urls.Keys)//找到一个还没有下载过的链接
+                String u;
+                pending.TryDequeue(out u);
+                if (u != null)
                 {
-                    if ((bool)urls[url]) continue;//已经下载过的不再下载
-                    current = url;
+                    Task.Run(() => DownloadAndParse(u));
                 }
-                if (current == null || count > 100) break;
-                Console.WriteLine("爬行" + current + "页面!");
-               
-                string html =Download(current);//下载              
-                urls[current] = true;
-                count++;
-                Parse(html);//解析，并加入新的链接
-              
-               
             }
-            Console.WriteLine("爬行结束");
+            stopWatch.Stop();
+            Console.WriteLine("time cost:" + stopWatch.ElapsedMilliseconds);
         }
-        public string Download(string url)
+
+        public void DownloadAndParse(String url)
         {
+            WebClient client = new WebClient();
+            client.Encoding = Encoding.UTF8;
             try
             {
-                WebClient webClient = new WebClient();
-                webClient.Encoding = Encoding.UTF8;
-                string html = webClient.DownloadString(url);
-                string fileName = count.ToString();
-                File.WriteAllText(fileName, html, Encoding.UTF8);
-                return html;
+                if (count > max) return;
+                Console.WriteLine($"{count}:Downlonding {url}");
+                String page = client.DownloadString(url);
+                File.WriteAllText(count.ToString(), page, Encoding.UTF8);
+                count++;
+                this.complated.Add(url);
+                Console.WriteLine($"Parsing {url}");
+                Parse(page);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return "";
-            }
+            catch { }
         }
-        public void Parse(string html)
+
+        private void Parse(string page)
         {
             string strRef = @"(href|HREF)[]*=[]*[""'][^""'#>]+[""']";
-            MatchCollection matchs = new Regex(strRef).Matches(html);
-            foreach (Match match in matchs)
+            MatchCollection matches = new Regex(strRef).Matches(page);
+            foreach (Match match in matches)
             {
-                strRef = match.Value.Substring(match.Value.IndexOf('=') + 1).Trim('"', '\"', '#', ' ', '>');
-                if (strRef.Length == 0) continue;
-                if (urls[strRef] == null) urls[strRef] = false;
+                String url = match.Value.Substring(match.Value.IndexOf("=") + 1)
+                  .Trim('"', '\"', '#', ',', '>');
+                if (url.Length == 0) continue;
+                if (!pending.Contains(url) && !complated.Contains(url))
+                {
+                    pending.Enqueue(url);
+                }
             }
         }
+
     }
 }
